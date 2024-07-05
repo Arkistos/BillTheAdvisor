@@ -8,6 +8,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MissionRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 #[ApiResource]
 class Mission
 {
@@ -34,6 +35,9 @@ class Mission
     #[ORM\ManyToOne(inversedBy: 'missions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $payment_date = null;
 
     public function getId(): ?int
     {
@@ -108,6 +112,18 @@ class Mission
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPaymentDate(): ?\DateTimeImmutable
+    {
+        return $this->payment_date;
+    }
+
+    public function setPaymentDate(?\DateTimeImmutable $payment_date): static
+    {
+        $this->payment_date = $payment_date;
 
         return $this;
     }
