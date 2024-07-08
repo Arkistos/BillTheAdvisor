@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\MissionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: MissionRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ApiResource]
+#[Get(security:"object.getUser() == user")] /////Gérer ça dans le state provider
+#[Post()]
 class Mission
 {
     #[ORM\Id]
