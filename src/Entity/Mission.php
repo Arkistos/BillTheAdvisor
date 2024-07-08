@@ -19,6 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[Post()]
 #[Patch(security:"object.getUser() == user")]/* Request content-type = application/merge-patch+json */
 #[Delete(security: "object.getUser() == user")]
+#[GetCollection()]
 class Mission
 {
     #[ORM\Id]
