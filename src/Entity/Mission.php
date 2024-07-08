@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use App\Repository\MissionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,6 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ApiResource]
 #[Get(security:"object.getUser() == user")] /////Gérer ça dans le state provider
 #[Post()]
+#[Patch(security:"object.getUser() == user")]/* Request content-type = application/merge-patch+json */
 class Mission
 {
     #[ORM\Id]
