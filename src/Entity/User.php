@@ -70,6 +70,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, Mission>
      */
     #[ORM\OneToMany(targetEntity: Mission::class, mappedBy: 'user')]
+    #[Groups(['user:read'])]
     private Collection $missions;
 
     public function __construct()

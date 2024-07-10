@@ -3,12 +3,23 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use App\Repository\MissionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MissionRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 #[ApiResource]
+#[Get(security:"object.getUser() == user")] /////Gérer ça dans le state provider
+#[Post()]
+#[Patch(security:"object.getUser() == user")]/* Request content-type = application/merge-patch+json */
+#[Delete(security: "object.getUser() == user")]
+#[GetCollection()]
 class Mission
 {
     #[ORM\Id]
@@ -34,6 +45,9 @@ class Mission
     #[ORM\ManyToOne(inversedBy: 'missions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $payment_date = null;
 
     public function getId(): ?int
     {
@@ -108,6 +122,18 @@ class Mission
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPaymentDate(): ?\DateTimeImmutable
+    {
+        return $this->payment_date;
+    }
+
+    public function setPaymentDate(?\DateTimeImmutable $payment_date): static
+    {
+        $this->payment_date = $payment_date;
 
         return $this;
     }
